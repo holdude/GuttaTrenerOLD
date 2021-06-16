@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "837754166267",
+    "project_id": "guttatrener",
+    "storage_bucket": "guttatrener.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:837754166267:android:d0bba8b37d7a510a29095e",
+        "android_client_info": {
+          "package_name": "com.example.guttatrener"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "837754166267-it39ni7tq05958d217r5o77irp69is67.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCSsC0ncM5lELGzBlpZrue0UiSKCzpjNxU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "837754166267-it39ni7tq05958d217r5o77irp69is67.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
