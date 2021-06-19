@@ -1,5 +1,6 @@
 package com.example.guttatrener;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,8 +13,11 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.dynamic.SupportFragmentWrapper;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+
 
 import java.util.ArrayList;
 
@@ -41,6 +45,8 @@ public class SecondFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_second, container, false);
     }
 
+
+
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
@@ -48,10 +54,12 @@ public class SecondFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "sd", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                OpenSelectorTraining();
             }
         });
+
+        // Alert popup
+
 
         // Setter opp fieldsene
         dagenField = view.findViewById(R.id.dagFragId);
@@ -71,6 +79,7 @@ public class SecondFragment extends Fragment {
     }
 
     private void initTreningData(View view){
+
         ovelseNavnList.add("Benkpress");
         imagePlassList.add("https://www.sfi.no/images/trening_icon.png");
         tallSetList.add(0);
@@ -93,4 +102,14 @@ public class SecondFragment extends Fragment {
         recyclerView.setAdapter(adaptder);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
+
+    // Dialog åpner
+    public void OpenSelectorTraining(){
+        DialogTreningValg dialogTrening = new DialogTreningValg();
+        dialogTrening.show(getActivity().getSupportFragmentManager(), "tagen");
+
+    }
+
+
+
 }

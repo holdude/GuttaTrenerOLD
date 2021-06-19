@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.NumberPicker;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,7 +22,6 @@ import java.util.ArrayList;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RecyclerViewAdaptder extends RecyclerView.Adapter<RecyclerViewAdaptder.ViewHolder> {
-
 
     public RecyclerViewAdaptder(ArrayList<String> ovelseNavnList, ArrayList<String> imagePlassList, ArrayList<Integer> tallSetList, ArrayList<Integer> tallRepsList, ArrayList<Integer> tallVektList, Context mContext) {
         this.ovelseNavnList = ovelseNavnList;
@@ -73,6 +74,7 @@ public class RecyclerViewAdaptder extends RecyclerView.Adapter<RecyclerViewAdapt
             @Override
             public void onClick(View v) {
                 Toast.makeText(mContext,ovelseNavnList.get(position), Toast.LENGTH_SHORT).show();
+
             }
         });
     }
@@ -82,18 +84,18 @@ public class RecyclerViewAdaptder extends RecyclerView.Adapter<RecyclerViewAdapt
         return ovelseNavnList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder{
 
         // Daten
         CircleImageView imageM;
         RelativeLayout parent_layout;
         TextView ovelse;
         TextView tekstSet;
-        TextView tallSet;
+        EditText tallSet;
         TextView tekstReps;
-        TextView tallReps;
+        EditText tallReps;
         TextView tekstVekt;
-        TextView tallVekt;
+        EditText tallVekt;
 
 
 

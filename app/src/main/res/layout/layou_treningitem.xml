@@ -16,10 +16,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Øvelse"
-        android:textSize="20dp"
+        android:textSize="15dp"
         android:layout_marginLeft="15dp"
-        android:layout_centerHorizontal="true"
-        />
+        android:layout_centerHorizontal="true"/>
+
 
     <TextView
         android:id="@+id/setTrening"
@@ -29,9 +29,9 @@
         android:layout_toRightOf="@id/bildeTrening"
         android:layout_centerVertical="true"
         android:layout_marginLeft="25dp"
-        android:textSize="20dp"/>
+        android:textSize="15dp"/>
 
-    <TextView
+    <EditText
         android:id="@+id/setTall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -39,7 +39,9 @@
         android:layout_toRightOf="@id/setTrening"
         android:layout_centerVertical="true"
         android:layout_marginLeft="5dp"
-        android:textSize="20dp"
+        android:textSize="15dp"
+        android:inputType="number|phone"
+        android:maxLength="2"
         />
 
     <TextView
@@ -50,9 +52,9 @@
         android:layout_centerVertical="true"
         android:layout_toRightOf="@id/setTall"
         android:layout_marginLeft="25dp"
-        android:textSize="20dp"/>
+        android:textSize="15dp"/>
 
-    <TextView
+    <EditText
         android:id="@+id/repsTall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -60,7 +62,9 @@
         android:layout_toRightOf="@id/repsTrening"
         android:layout_centerVertical="true"
         android:layout_marginLeft="5dp"
-        android:textSize="20dp"
+        android:textSize="15dp"
+        android:inputType="number|phone"
+        android:maxLength="2"
 
 />
 
@@ -72,10 +76,10 @@
         android:layout_centerVertical="true"
         android:layout_toRightOf="@id/repsTall"
         android:layout_marginLeft="25dp"
-        android:textSize="20dp"
+        android:textSize="15dp"
         />
 
-    <TextView
+    <EditText
         android:id="@+id/vektTall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -83,6 +87,8 @@
         android:layout_toRightOf="@id/vektTrening"
         android:layout_centerVertical="true"
         android:layout_marginLeft="5dp"
-        android:textSize="20dp"
-/>
+        android:textSize="15dp"
+        android:inputType="number|phone"
+        android:maxLength="3"
+        />
 </RelativeLayout>
