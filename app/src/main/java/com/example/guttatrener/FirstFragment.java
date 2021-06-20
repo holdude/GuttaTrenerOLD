@@ -20,6 +20,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class FirstFragment extends Fragment {
 
@@ -29,6 +30,10 @@ public class FirstFragment extends Fragment {
     private TextView dag2;
     private TextView dag3;
     private TextView dag4;
+
+    // Database
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+
 
 
     @Override

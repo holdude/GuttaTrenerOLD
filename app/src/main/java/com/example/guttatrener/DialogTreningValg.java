@@ -15,10 +15,19 @@ import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Map;
 
 public class DialogTreningValg extends AppCompatDialogFragment {
 
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
     // Lister
     private ArrayList<String> ovelseNavnList = new ArrayList<>();
     private ArrayList<String> bildePlassList = new ArrayList<>();
@@ -54,55 +63,11 @@ public class DialogTreningValg extends AppCompatDialogFragment {
 
     // INit
     private void initOvelseData(View view){
-        ovelseNavnList.add("Benkpress");
-        bildePlassList.add("https://www.sfi.no/images/trening_icon.png");
 
-        ovelseNavnList.add("Pull ups");
-        bildePlassList.add("https://www.sfi.no/images/trening_icon.png");
+        // henter fra databasen med map
+        getTreningsOvselser(view);
 
-        ovelseNavnList.add("Armhevinger");
-        bildePlassList.add("https://www.sfi.no/images/trening_icon.png");
-        ovelseNavnList.add("Benkpress");
-        bildePlassList.add("https://www.sfi.no/images/trening_icon.png");
 
-        ovelseNavnList.add("Pull ups");
-        bildePlassList.add("https://www.sfi.no/images/trening_icon.png");
-
-        ovelseNavnList.add("Armhevinger");
-        bildePlassList.add("https://www.sfi.no/images/trening_icon.png");
-        ovelseNavnList.add("Benkpress");
-        bildePlassList.add("https://www.sfi.no/images/trening_icon.png");
-
-        ovelseNavnList.add("Pull ups");
-        bildePlassList.add("https://www.sfi.no/images/trening_icon.png");
-
-        ovelseNavnList.add("Armhevinger");
-        bildePlassList.add("https://www.sfi.no/images/trening_icon.png");
-        ovelseNavnList.add("Benkpress");
-        bildePlassList.add("https://www.sfi.no/images/trening_icon.png");
-
-        ovelseNavnList.add("Pull ups");
-        bildePlassList.add("https://www.sfi.no/images/trening_icon.png");
-
-        ovelseNavnList.add("Armhevinger");
-        bildePlassList.add("https://www.sfi.no/images/trening_icon.png");
-        ovelseNavnList.add("Benkpress");
-        bildePlassList.add("https://www.sfi.no/images/trening_icon.png");
-
-        ovelseNavnList.add("Pull ups");
-        bildePlassList.add("https://www.sfi.no/images/trening_icon.png");
-
-        ovelseNavnList.add("Armhevinger");
-        bildePlassList.add("https://www.sfi.no/images/trening_icon.png");
-        ovelseNavnList.add("Benkpress");
-        bildePlassList.add("https://www.sfi.no/images/trening_icon.png");
-
-        ovelseNavnList.add("Pull ups");
-        bildePlassList.add("https://www.sfi.no/images/trening_icon.png");
-
-        ovelseNavnList.add("Armhevinger");
-        bildePlassList.add("https://www.sfi.no/images/trening_icon.png");
-        initRecyclerViewTreningValg(view);
 
     }
 
@@ -111,5 +76,38 @@ public class DialogTreningValg extends AppCompatDialogFragment {
         RecyclerViewAdapterOvelser adaptder = new RecyclerViewAdapterOvelser(bildePlassList, ovelseNavnList, getActivity());
         recyclerView.setAdapter(adaptder);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+    }
+
+
+    // database relatert
+    // henter treningsøvelser fra db
+    public void getTreningsOvselser(View view){
+        // Lister for getTreningsOvelse
+
+        db.collection("treningsOkter").get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            for (QueryDocumentSnapshot document : task.getResult()){
+                              //  Log.d("er", "ASD");
+                               // Dataen
+                                String ovselseNavn =  document.get("navn").toString();
+                                String bildePlass = document.get("bildePlassering").toString();
+
+                                ovelseNavnList.add(ovselseNavn);
+                                bildePlassList.add(bildePlass);
+                                Log.d("Utdata", ovselseNavn);
+
+
+                            }
+
+                        }
+                        initRecyclerViewTreningValg(view);
+                    }
+                });
+
+
+
     }
 }
