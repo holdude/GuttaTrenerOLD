@@ -2,6 +2,7 @@ package com.example.guttatrener;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,19 +10,29 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.dynamic.SupportFragmentWrapper;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class SecondFragment extends Fragment {
+    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
     // Text variabler
     private TextView dagenField;
@@ -35,6 +46,8 @@ public class SecondFragment extends Fragment {
     private ArrayList<String> tekstVektList = new ArrayList<>();
     private ArrayList<Integer> tallVektList = new ArrayList<>();
 
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    Calendar kalenderen = Calendar.getInstance();
 
     @Override
     public View onCreateView(
@@ -58,9 +71,8 @@ public class SecondFragment extends Fragment {
             }
         });
 
-        // Alert popup
 
-
+        //Log.d("Brukeren", user.getPhoneNumber());
         // Setter opp fieldsene
         dagenField = view.findViewById(R.id.dagFragId);
 
@@ -68,10 +80,14 @@ public class SecondFragment extends Fragment {
         String ukeNr = FirstFragmentArgs.fromBundle(getArguments()).getUkeNr();
         String dagNr = FirstFragmentArgs.fromBundle(getArguments()).getDagNr();
 
+        // Henter dataen
+        getDagen(dagNr);
+
+
         initTreningData(view);
 
         // Setter fieldsene
-        dagenField.setText(dagNr);
+        dagenField.setText(ukeNr);
 
        // Log.i("Uke", ukeNr);
        // Log.i("Dag", dagNr);
@@ -111,5 +127,47 @@ public class SecondFragment extends Fragment {
     }
 
 
+    // logget inn/ ikkje logget in
+    public void logInn(FirebaseUser currentUser, View View){
+
+        // Sjekker om bruker er null
+        //Log.d("NOEAD", currentUser.getEmail());
+
+        if (user == null) {
+            // bruker ikkje logget inn
+            Navigation.findNavController(View).navigate(FirstFragmentDirections.actionFirstFragmentToLogin());
+        } else {
+            // Logget inn allerede
+            Log.d("Brukeren", user.getDisplayName());
+        }
+
+    }
+
+
+    // --------------------------- DATABASE FIRESTORE--------------------------------------
+    // Henter alltid default fra dagen/uken i dag
+    public void getDagen(String dagen){
+        db.collection("users").document(user.getUid()).collection(String.valueOf(kalenderen.get(Calendar.YEAR)))
+                .document(String.valueOf(Calendar.WEEK_OF_YEAR)).collection(dagen).get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            Log.d("DBEN", "tasken e null men success");
+                            if(task.getResult().isEmpty()){
+                                Log.d("DBAN", "Tasken e tom");
+                                // Ikkje gjør mer, vent på data fra databasen
+                            } else {
+                                Log.d("DBEN", "tasken e ikkje tom");
+                                // legg inn dataen for løkke og du vet
+                            }
+
+                        } else {
+                            Log.d("DBEN", "Ikkje success");
+                        }
+                    }
+                });
+
+    }
 
 }

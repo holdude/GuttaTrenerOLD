@@ -7,10 +7,10 @@
     tools:context=".FirstFragment">
 
     <Button
-        android:id="@+id/button_first"
+        android:id="@+id/nextKnapp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/next"
+        android:text="Logg ut"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

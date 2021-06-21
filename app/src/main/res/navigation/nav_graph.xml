@@ -15,10 +15,15 @@
             app:destination="@id/SecondFragment" />
         <argument
             android:name="dagNr"
-            app:argType="string" />
+            app:argType="string"
+            app:nullable="true" />
         <argument
             android:name="ukeNr"
-            app:argType="string" />
+            app:argType="string"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_FirstFragment_to_login"
+            app:destination="@id/login" />
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
@@ -33,6 +38,15 @@
             app:argType="string" />
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"
+            app:destination="@id/FirstFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/login"
+        android:name="com.example.guttatrener.Login"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_login_to_FirstFragment"
             app:destination="@id/FirstFragment" />
     </fragment>
 </navigation>
