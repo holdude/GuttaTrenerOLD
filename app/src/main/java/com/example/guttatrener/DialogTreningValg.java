@@ -31,6 +31,10 @@ public class DialogTreningValg extends AppCompatDialogFragment {
     // Lister
     private ArrayList<String> ovelseNavnList = new ArrayList<>();
     private ArrayList<String> bildePlassList = new ArrayList<>();
+    String arret;
+    String uken;
+    String dagen;
+
 
 
     @NonNull
@@ -40,6 +44,11 @@ public class DialogTreningValg extends AppCompatDialogFragment {
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.layout_treningvelger, null);
+
+        arret = String.valueOf(getArguments().get("aaren"));
+        uken = String.valueOf(getArguments().get("uken"));
+        dagen = String.valueOf(getArguments().get("dagen"));
+
 
         builder.setView(view)
                 .setTitle("Øvelse")
@@ -51,6 +60,8 @@ public class DialogTreningValg extends AppCompatDialogFragment {
                 }).setPositiveButton("Velg", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                Log.d("DAOGAGASG", "RATATATATATAT");
+
 
             }
         });
@@ -73,7 +84,7 @@ public class DialogTreningValg extends AppCompatDialogFragment {
 
     private void initRecyclerViewTreningValg(View view){
         RecyclerView recyclerView = view.findViewById(R.id.recyclerOvelsevalg);
-        RecyclerViewAdapterOvelser adaptder = new RecyclerViewAdapterOvelser(bildePlassList, ovelseNavnList, getActivity());
+        RecyclerViewAdapterOvelser adaptder = new RecyclerViewAdapterOvelser(bildePlassList, ovelseNavnList, dagen, uken, arret, getActivity());
         recyclerView.setAdapter(adaptder);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
@@ -97,7 +108,6 @@ public class DialogTreningValg extends AppCompatDialogFragment {
 
                                 ovelseNavnList.add(ovselseNavn);
                                 bildePlassList.add(bildePlass);
-                                Log.d("Utdata", ovselseNavn);
 
 
                             }

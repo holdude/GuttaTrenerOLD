@@ -1,6 +1,9 @@
 package com.example.guttatrener;
 
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +17,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.w3c.dom.Text;
 
@@ -23,9 +31,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RecyclerViewAdaptder extends RecyclerView.Adapter<RecyclerViewAdaptder.ViewHolder> {
 
-    public RecyclerViewAdaptder(ArrayList<String> ovelseNavnList, ArrayList<String> imagePlassList, ArrayList<Integer> tallSetList, ArrayList<Integer> tallRepsList, ArrayList<Integer> tallVektList, Context mContext) {
+    public RecyclerViewAdaptder(ArrayList<String> ovelseNavnList, ArrayList<String> imagePlassList, ArrayList<String> idlisten,ArrayList<Integer> tallSetList, ArrayList<Integer> tallRepsList, ArrayList<Integer> tallVektList, String arrNr, String ukeNr, String dagNr, Context mContext) {
         this.ovelseNavnList = ovelseNavnList;
         this.imagePlassList = imagePlassList;
+        this.idlisten = idlisten;
         this.tekstSetList = tekstSetList;
         this.tallSetList = tallSetList;
         this.tekstRepsList = tekstRepsList;
@@ -33,9 +42,17 @@ public class RecyclerViewAdaptder extends RecyclerView.Adapter<RecyclerViewAdapt
         this.tekstVektList = tekstVektList;
         this.tallVektList = tallVektList;
         this.mContext = mContext;
+        this.arrNr = arrNr;
+        this.ukeNr = ukeNr;
+        this.dagNr = dagNr;
     }
+
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
     private ArrayList<String> ovelseNavnList = new ArrayList<>();
     private ArrayList<String> imagePlassList = new ArrayList<>();
+    private ArrayList<String> idlisten = new ArrayList<>();
     private ArrayList<String> tekstSetList = new ArrayList<>();
     private ArrayList<Integer> tallSetList = new ArrayList<>();
     private ArrayList<String> tekstRepsList = new ArrayList<>();
@@ -43,6 +60,9 @@ public class RecyclerViewAdaptder extends RecyclerView.Adapter<RecyclerViewAdapt
     private ArrayList<String> tekstVektList = new ArrayList<>();
     private ArrayList<Integer> tallVektList = new ArrayList<>();
     private Context mContext;
+    private String arrNr;
+    private String ukeNr;
+    private String dagNr;
 
 
     @NonNull
@@ -77,7 +97,77 @@ public class RecyclerViewAdaptder extends RecyclerView.Adapter<RecyclerViewAdapt
 
             }
         });
+        // En refernce på pathen alle queryes skal igjennom her
+        DocumentReference dben = db.collection("users").document(user.getUid()).collection(arrNr).document(ukeNr).collection(dagNr).document(idlisten.get(position));
+
+        // Endre setTallet
+        holder.tallSet.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(!s.toString().equals("")){
+                    int setTall = Integer.parseInt(holder.tallSet.getText().toString());
+                    // Endrer SET tallet i db
+                    dben.update("set", setTall);
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        // Endrer repsTallet
+
+        holder.tallReps.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(!s.toString().equals("")){
+                    int repsTall = Integer.parseInt(holder.tallReps.getText().toString());
+                    dben.update("reps", repsTall);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        // Endret vekt tallet
+        holder.tallVekt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(!s.toString().equals("")){
+                    int vektTall = Integer.parseInt(holder.tallVekt.getText().toString());
+                    dben.update("vekt", vektTall);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
     }
+
 
     @Override
     public int getItemCount() {

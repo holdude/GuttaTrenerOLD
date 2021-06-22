@@ -44,9 +44,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:text="Uke 26"
+                android:text="Uke 25"
                 android:textAlignment="center"
                 android:textSize="33dp" />
+
+            <TextView
+                android:id="@+id/idArret"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="2021"
+                android:textAlignment="center"
+                android:textSize="33dp"
+                android:visibility="gone"/>
 
             <Button
                 android:id="@+id/button4"

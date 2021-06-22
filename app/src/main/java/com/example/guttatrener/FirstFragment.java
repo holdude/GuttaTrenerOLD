@@ -31,6 +31,7 @@ public class FirstFragment extends Fragment {
 
     // Datafelt
     private TextView ukeNr;
+    private TextView arrNr;
     private TextView dag1;
     private TextView dag2;
     private TextView dag3;
@@ -69,6 +70,7 @@ public class FirstFragment extends Fragment {
 
 
         ukeNr = view.findViewById(R.id.idUkenr);
+        arrNr = view.findViewById(R.id.idArret);
 
         dag1 = view.findViewById(R.id.dag1);
         dag2 = view.findViewById(R.id.dag2);
@@ -144,8 +146,16 @@ public class FirstFragment extends Fragment {
 
         // Finne uken
         CharSequence ukeTallet = ukeNr.getText();
+        // Fjerner alt i stringen utenom tallet
+        String ukeString = ukeTallet.toString().replaceAll("Uke ", "");
 
-        FirstFragmentDirections.ActionFirstFragmentToSecondFragment action = FirstFragmentDirections.actionFirstFragmentToSecondFragment(dagen.toString(),ukeTallet.toString());
+        // Finner året
+        CharSequence arrTallet = arrNr.getText();
+
+        // Fjerner alt i stringen dagen utenom tallet
+        String dagString = dagen.replaceAll("Dag ", "");
+
+        FirstFragmentDirections.ActionFirstFragmentToSecondFragment action = FirstFragmentDirections.actionFirstFragmentToSecondFragment(dagString, ukeString, arrTallet.toString());
         Navigation.findNavController(view).navigate(action);
 
     }
