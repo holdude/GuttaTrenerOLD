@@ -109,23 +109,6 @@ public class SecondFragment extends Fragment {
 
     }
 
-    private void initTreningData(View view){
-
-        ovelseNavnList.add("Benkpress");
-        imagePlassList.add("https://www.sfi.no/images/trening_icon.png");
-        tallSetList.add(0);
-        tallRepsList.add(0);
-        tallVektList.add(0);
-
-        ovelseNavnList.add("Dog");
-        imagePlassList.add("https://www.sfi.no/images/trening_icon.png");
-        tallSetList.add(2);
-        tallRepsList.add(3);
-        tallVektList.add(30);
-
-        InitRecyclerView();
-
-    }
 
     private void InitRecyclerView(){
         RecyclerView recyclerView = getActivity().findViewById(R.id.recyclerView);
@@ -165,7 +148,7 @@ public class SecondFragment extends Fragment {
         idListen.clear();
 
         db.collection("users").document(user.getUid()).collection(arret)
-                .document(uken).collection(dagen).get()
+                .document(uken).collection(dagen).orderBy("dato").get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {

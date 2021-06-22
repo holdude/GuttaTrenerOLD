@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent" android:layout_height="wrap_content"
     android:id="@+id/parent_layout">
 
@@ -16,7 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Øvelse"
-        android:textSize="15dp"
+        android:textSize="20dp"
         android:layout_marginLeft="15dp"
         android:layout_centerHorizontal="true"/>
 
@@ -41,6 +42,7 @@
         android:layout_marginLeft="5dp"
         android:textSize="15dp"
         android:inputType="number|phone"
+        android:digits="0123456789"
         android:maxLength="2"
         />
 
@@ -64,6 +66,7 @@
         android:layout_marginLeft="5dp"
         android:textSize="15dp"
         android:inputType="number|phone"
+        android:digits="0123456789"
         android:maxLength="2"
 
 />
@@ -89,6 +92,17 @@
         android:layout_marginLeft="5dp"
         android:textSize="15dp"
         android:inputType="number|phone"
+        android:digits="0123456789"
         android:maxLength="3"
         />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/knappSlett"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_toRightOf="@+id/vektTall"
+        android:text="X"
+        android:layout_centerVertical="true"
+        app:backgroundTint="#DF0101" />
 </RelativeLayout>

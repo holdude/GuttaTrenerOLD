@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.RelativeLayout;
@@ -89,6 +90,7 @@ public class RecyclerViewAdaptder extends RecyclerView.Adapter<RecyclerViewAdapt
 
         holder.tallVekt.setText(tallVektList.get(position).toString());
 
+
         holder.parent_layout.setOnClickListener(new View.OnClickListener(){
 
             @Override
@@ -99,6 +101,15 @@ public class RecyclerViewAdaptder extends RecyclerView.Adapter<RecyclerViewAdapt
         });
         // En refernce på pathen alle queryes skal igjennom her
         DocumentReference dben = db.collection("users").document(user.getUid()).collection(arrNr).document(ukeNr).collection(dagNr).document(idlisten.get(position));
+
+        // Slett knapp
+        holder.knappSlett.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Sletter øvelsen
+                dben.delete();
+            }
+        });
 
         // Endre setTallet
         holder.tallSet.addTextChangedListener(new TextWatcher() {
@@ -122,6 +133,8 @@ public class RecyclerViewAdaptder extends RecyclerView.Adapter<RecyclerViewAdapt
 
             }
         });
+
+
 
         // Endrer repsTallet
 
@@ -186,6 +199,7 @@ public class RecyclerViewAdaptder extends RecyclerView.Adapter<RecyclerViewAdapt
         EditText tallReps;
         TextView tekstVekt;
         EditText tallVekt;
+        Button knappSlett;
 
 
 
@@ -200,6 +214,7 @@ public class RecyclerViewAdaptder extends RecyclerView.Adapter<RecyclerViewAdapt
             tallReps = itemView.findViewById(R.id.repsTall);
             tekstVekt = itemView.findViewById(R.id.vektTrening);
             tallVekt = itemView.findViewById(R.id.vektTall);
+            knappSlett = itemView.findViewById(R.id.knappSlett);
 
 
 

@@ -66,9 +66,6 @@ public class FirstFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
-
-
         ukeNr = view.findViewById(R.id.idUkenr);
         arrNr = view.findViewById(R.id.idArret);
 
@@ -141,7 +138,7 @@ public class FirstFragment extends Fragment {
         });
     }
 
-    // Funksjon for å endre fragment til dag
+    // Funksjon for å endre fragment til dag fragmentet (Secondfragment)
     public void endreTilDag(String dagen, View view){
 
         // Finne uken

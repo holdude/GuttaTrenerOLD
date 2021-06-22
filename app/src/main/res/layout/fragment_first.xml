@@ -70,7 +70,7 @@
             android:id="@+id/cardDag1"
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            app:cardBackgroundColor="#8A0808"
+            app:cardBackgroundColor="#013ADF"
             app:cardElevation="50dp">
 
 
@@ -90,7 +90,7 @@
             android:id="@+id/cardDag2"
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            app:cardBackgroundColor="#DF01A5"
+            app:cardBackgroundColor="#FA5858"
             app:cardElevation="50dp">
 
 
@@ -128,7 +128,7 @@
             android:id="@+id/cardDag4"
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            app:cardBackgroundColor="#0040FF"
+            app:cardBackgroundColor="#B40431"
             app:cardElevation="50dp">
 
 
@@ -141,6 +141,7 @@
                 android:textAlignment="center"
                 android:textSize="25dp"
                 tools:ignore="MissingConstraints" />
+
         </androidx.cardview.widget.CardView>
 
 

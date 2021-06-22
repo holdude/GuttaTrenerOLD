@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -76,6 +77,7 @@ public class RecyclerViewAdapterOvelser extends RecyclerView.Adapter<RecyclerVie
                 ovelse.put("reps", 0);
                 ovelse.put("set", 0);
                 ovelse.put("vekt", 0);
+                ovelse.put("dato", Timestamp.now());
 
                 db.collection("users").document(user.getUid()).collection(aaret).document(uken)
                         .collection(dagen).document().set(ovelse)
