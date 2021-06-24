@@ -19,15 +19,22 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class FirstFragment extends Fragment {
 
     private FirebaseAuth mAuth;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
     // Datafelt
     private TextView ukeNr;
@@ -37,7 +44,7 @@ public class FirstFragment extends Fragment {
     private TextView dag3;
     private TextView dag4;
     private Button nextKnapp;
-    FirebaseUser brukeren;
+
 
 
 
@@ -61,6 +68,11 @@ public class FirstFragment extends Fragment {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         logInn(currentUser, getView());
 
+        if (currentUser != null){
+            getInitData();
+        }
+
+
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
@@ -74,6 +86,9 @@ public class FirstFragment extends Fragment {
         dag3 = view.findViewById(R.id.dag3);
         dag4 = view.findViewById(R.id.dag4);
         nextKnapp = view.findViewById(R.id.nextKnapp);
+
+
+
 
         // logg ut knapp
         nextKnapp.setOnClickListener(new View.OnClickListener() {
@@ -136,6 +151,21 @@ public class FirstFragment extends Fragment {
 
             }
         });
+
+        // Knapp tilbake
+        view.findViewById(R.id.knappTilbake).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                endreUke(false);
+            }
+        });
+
+        view.findViewById(R.id.knappFram).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                endreUke(true);
+            }
+        });
     }
 
     // Funksjon for å endre fragment til dag fragmentet (Secondfragment)
@@ -157,6 +187,62 @@ public class FirstFragment extends Fragment {
 
     }
 
+    // Endrer uken fram eller tilbake
+    public void endreUke(boolean fram){
+        // Fjerner uke fra stringen ukeNr
+        int uketallet = Integer.parseInt(ukeNr.getText().toString().replaceAll("Uke ", ""));
+
+        // Finner året
+        int arrTallet = Integer.parseInt(arrNr.getText().toString());
+
+        // Hvis fram er true gå til neste uke
+        if(fram){
+            // Gå fram
+            // Sjekker om det er nytt år som skal velges fram
+            if(uketallet == 52){
+                // Sett nytt år fram
+                // Sett uken til 1 og år +1
+                dbNyUkeAar(1, arrTallet+1);
+
+            } else{
+                // Ikke sett nytt år
+                // Endre uken til uke +1
+                dbNyUkeAar(uketallet+1, arrTallet);
+            }
+
+
+        } else{
+            // Gå tilbake
+            //Sjekker om det er nytt år som skal velges
+            if(uketallet == 1){
+                // Sett nytt år tilbake
+                // Sett uken til 52 og år -1
+                dbNyUkeAar(52, arrTallet-1);
+            } else{
+                // Ikke sett nytt år
+                // Endre uken til uke -1
+                dbNyUkeAar(uketallet-1, arrTallet);
+            }
+        }
+    }
+
+    // db setning for nyttår/uke
+    public void dbNyUkeAar(int uke, int aar){
+        String ukeS = String.valueOf(uke);
+        String aarS = String.valueOf(aar);
+
+        // Endrer valgt uke i db
+        db.collection("users").document(user.getUid()).update(
+                "ukeValgt", uke,
+                "aarValgt",aar
+        );
+
+        // Endrer fragment dataen. Trenger ikkje engang db innlegging, den taes automatisk ved klikk på dag med data fra uke og år feltene
+        ukeNr.setText("Uke "+ukeS);
+        arrNr.setText(aarS);
+
+
+    }
 
     // logget inn/ ikkje logget in
     public void logInn(FirebaseUser currentUser, View View){
@@ -174,5 +260,21 @@ public class FirstFragment extends Fragment {
 
     }
 
+    // Finn valgt år/uke
+    public void getInitData(){
+        db.collection("users").document(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                // Sjekk om første gang, hvis ikkje kjør
+                if(task.getResult() != null){
+                    ukeNr.setText("Uke "+task.getResult().get("ukeValgt").toString());
+                    arrNr.setText(task.getResult().get("aarValgt").toString());
+
+                }
+
+
+            }
+            });
+        }
 
 }

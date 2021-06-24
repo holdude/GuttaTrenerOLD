@@ -149,6 +149,11 @@ public class Login extends Fragment {
         // lager map
         Map<String, Object> brukeren = new HashMap<>();
         brukeren.put("uid", user.getUid());
+        brukeren.put("aarValgt", kalenderen.get(Calendar.YEAR));
+        brukeren.put("ukeValgt", kalenderen.get(Calendar.WEEK_OF_YEAR));
+        Log.d("ÅRET", String.valueOf(kalenderen.get(Calendar.YEAR)));
+        Log.d("UKEN", String.valueOf(kalenderen.get(Calendar.WEEK_OF_YEAR)));
+
         // Finner ukenr
         int uken = kalenderen.get(Calendar.WEEK_OF_YEAR);
         String ukenS = String.valueOf(uken);
